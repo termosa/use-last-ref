@@ -1,12 +1,12 @@
 import React from 'react'
 
-import { useMyHook } from 'use-last-ref'
+import { useLastRef } from 'use-last-ref'
 
 const App = () => {
-  const example = useMyHook()
+  const example = useLastRef(1)
   return (
     <div>
-      {example}
+      {example.current}
     </div>
   )
 }

@@ -1,23 +1,9 @@
-import * as React from 'react';
+import * as React from 'react'
 
-export const useMyHook = () => {
-  let [{
-    counter
-  }, setState] = React.useState<{
-    counter: number;
-  }>({
-    counter: 0
-  });
-
-  React.useEffect(() => {
-    let interval = window.setInterval(() => {
-      counter++;
-      setState({counter})
-    }, 1000)
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, []);
-
-  return counter;
+export function useLastRef<T> (value: T): React.MutableRefObject<T> {
+  const ref = React.useRef(value)
+  ref.current = value
+  return ref
 };
+
+export default useLastRef

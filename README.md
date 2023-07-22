@@ -14,16 +14,26 @@ npm install --save use-last-ref
 
 ```tsx
 import * as React from 'react'
+import api from "./api"
 
-import { useMyHook } from 'use-last-ref'
+import useLastRef from 'use-last-ref'
+// Or: import { useLastRef } from 'use-last-ref'
 
-const Example = () => {
-  const example = useMyHook()
-  return (
-    <div>
-      {example}
-    </div>
-  )
+const ExampleInput = ({ value }: { value?: string }) => {
+  const valueRef = useLastRef(value)
+
+  const save = React.useCallback((newValue: string) => {
+    // Instead of adding `[value]` to `useCallback` dependency list
+    // and updating `save` function and `<CustomSelect>` component
+    // we use React reference feature to always access updated value
+
+    // Prevent submitting the save value
+    if (newValue !== valueRef.current) {
+      api.saveNewValue(newValue)
+    }
+  }, [])
+
+  return <CustomSelect onSelect={save} />
 }
 ```
 
